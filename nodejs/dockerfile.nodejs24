@@ -1,0 +1,9 @@
+# syntax=docker/dockerfile:1
+
+ARG DISTROLESS_VARIANT=nonroot
+
+FROM gcr.io/distroless/nodejs24-debian13:${DISTROLESS_VARIANT}
+
+WORKDIR /app
+
+USER nonroot

@@ -1,0 +1,27 @@
+# syntax=docker/dockerfile:1
+
+ARG BASE_IMAGE=alemos/golden_images:golang-1.24-debug
+
+# Stage 1: Build static Go binary
+FROM golang:1.24-alpine AS builder
+
+WORKDIR /src
+
+COPY go.mod ./
+COPY main.go ./
+
+RUN CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="-w -s" -o /app/server .
+
+# Stage 2: Distroless Golden Image runtime
+FROM ${BASE_IMAGE}
+
+WORKDIR /app
+
+COPY --from=builder /app/server /app/server
+
+ENV APP_ENV=production
+ENV PORT=8080
+
+EXPOSE 8080
+
+ENTRYPOINT ["/app/server"]

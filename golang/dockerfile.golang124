@@ -1,0 +1,14 @@
+# syntax=docker/dockerfile:1
+
+ARG DISTROLESS_IMAGE=static-debian12
+ARG DISTROLESS_VARIANT=nonroot
+
+FROM gcr.io/distroless/${DISTROLESS_IMAGE}:${DISTROLESS_VARIANT}
+
+ARG APP_ENV=production
+ENV APP_ENV=${APP_ENV}
+
+WORKDIR /app
+
+USER nonroot
+

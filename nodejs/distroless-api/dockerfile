@@ -1,0 +1,16 @@
+# syntax=docker/dockerfile:1
+
+ARG BASE_IMAGE=alemos/golden_images:nodejs-24-debug
+FROM ${BASE_IMAGE}
+
+WORKDIR /app
+
+COPY package.json .
+COPY src ./src
+
+ENV NODE_ENV=production
+ENV PORT=3000
+
+EXPOSE 3000
+
+CMD ["src/server.js"]
